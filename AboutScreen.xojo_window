@@ -262,7 +262,7 @@ Begin DesktopWindow AboutScreen
       TabIndex        =   10
       TabPanelIndex   =   0
       TabStop         =   True
-      Text            =   "Version: 0.2"
+      Text            =   "Version: 0.3"
       TextAlignment   =   0
       TextColor       =   &c000000
       Tooltip         =   ""
