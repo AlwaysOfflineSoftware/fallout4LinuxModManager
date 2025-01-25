@@ -443,7 +443,7 @@ Begin DesktopWindow MainScreen
       Cancel          =   False
       Caption         =   "Install"
       Default         =   False
-      Enabled         =   False
+      Enabled         =   True
       FontName        =   "System"
       FontSize        =   0.0
       FontUnit        =   0
@@ -590,7 +590,7 @@ End
 
 	#tag MenuHandler
 		Function HelpNexusPage() As Boolean Handles HelpNexusPage.Action
-		  
+		  System.GotoURL("https://www.nexusmods.com/fallout4/mods/90451")
 		  Return True
 		  
 		End Function
@@ -606,7 +606,7 @@ End
 
 	#tag MenuHandler
 		Function toolsFomod() As Boolean Handles toolsFomod.Action
-		  FomodScreen.Show
+		  // FomodScreen.Show
 		  Return True
 		  
 		End Function
@@ -817,10 +817,6 @@ End
 #tag Events btn_Install
 	#tag Event
 		Sub Pressed()
-		  
-		  Utils.GeneratePopup(1,"Careful what you try to install",_
-		  "Fomods are not supported yet and will not install")
-		  
 		  Var selectedZipMod As FolderItem= Utils.SelectTargetDialog("home",False)
 		  
 		  If(selectedZipMod<>Nil) Then
@@ -830,7 +826,7 @@ End
 		      Utils.GeneratePopup(1,selectedZipMod.Name + " was Installed!","(Probably)")
 		    Else
 		      Utils.GeneratePopup(3,selectedZipMod.Name + " Failed!",_
-		      "Please check the file is an actual zip and ensure it is in a not privileged place!")
+		      "Please check the file is an archive format, has correct permissions and not a Fomod!")
 		    End
 		  End
 		  

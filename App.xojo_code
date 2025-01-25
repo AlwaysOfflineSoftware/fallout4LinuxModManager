@@ -20,7 +20,7 @@ Inherits DesktopApplication
 		  App.dlcList.Value("ccSBJFO4003-Grenade.esl")=False
 		  App.dlcList.Value("ccOTMFO4001-Remnants.esl")=False
 		  // FomodHandler.RunFomod(_
-		  // "/home/hopelessdecoy/Projects/Xojo/DesktopApps/fo4LinuxModManager/Assets/ModuleConfig.xml")
+		  // "/home/hopelessdecoy/Projects/Xojo/DesktopApps/fo4LinuxModManager/Assets/ModuleConfig2.xml")
 		  Fallout4ModHandler.Startup
 		End Sub
 	#tag EndEvent

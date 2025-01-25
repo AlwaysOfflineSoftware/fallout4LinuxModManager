@@ -47,7 +47,7 @@ Begin DesktopWindow FomodScreen
       Left            =   20
       LineHeight      =   0.0
       LineSpacing     =   1.0
-      LockBottom      =   True
+      LockBottom      =   False
       LockedInPosition=   False
       LockLeft        =   True
       LockRight       =   True
@@ -84,7 +84,7 @@ Begin DesktopWindow FomodScreen
       Left            =   20
       LockBottom      =   False
       LockedInPosition=   False
-      LockLeft        =   False
+      LockLeft        =   True
       LockRight       =   True
       LockTop         =   True
       Multiline       =   False
@@ -97,7 +97,7 @@ Begin DesktopWindow FomodScreen
       TextAlignment   =   2
       TextColor       =   &c000000
       Tooltip         =   ""
-      Top             =   20
+      Top             =   15
       Transparent     =   False
       Underline       =   False
       Visible         =   True
@@ -114,14 +114,14 @@ Begin DesktopWindow FomodScreen
          LockBottom      =   False
          LockedInPosition=   False
          LockLeft        =   True
-         LockRight       =   False
+         LockRight       =   True
          LockTop         =   True
          PanelIndex      =   0
          Scope           =   2
          TabIndex        =   0
          TabPanelIndex   =   0
          Tooltip         =   ""
-         Top             =   38
+         Top             =   33
          Transparent     =   False
          Visible         =   True
          Width           =   612
@@ -179,8 +179,8 @@ Begin DesktopWindow FomodScreen
       Left            =   460
       LockBottom      =   True
       LockedInPosition=   False
-      LockLeft        =   True
-      LockRight       =   False
+      LockLeft        =   False
+      LockRight       =   True
       LockTop         =   False
       MacButtonStyle  =   0
       Scope           =   0
@@ -211,8 +211,8 @@ Begin DesktopWindow FomodScreen
       Left            =   552
       LockBottom      =   True
       LockedInPosition=   False
-      LockLeft        =   True
-      LockRight       =   False
+      LockLeft        =   False
+      LockRight       =   True
       LockTop         =   False
       MacButtonStyle  =   0
       Scope           =   0
@@ -264,7 +264,7 @@ Begin DesktopWindow FomodScreen
       Index           =   -2147483648
       InitialParent   =   ""
       Left            =   20
-      LockBottom      =   False
+      LockBottom      =   True
       LockedInPosition=   False
       LockLeft        =   True
       LockRight       =   False

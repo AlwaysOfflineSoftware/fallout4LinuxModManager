@@ -1,8 +1,12 @@
 #tag Module
 Protected Module FomodHandler
 	#tag Method, Flags = &h21
-		Private Sub GenerateFomodder()
+		Private Sub GenerateFomodder(displayFomod as FomodSchema)
+		  FomodScreen.lbl_FomodName.Text= displayFomod.modName
+		  FomodScreen.txa_FomodInfo.Text= displayFomod.description
+		  // FomodScreen.imv_fomodImage.Image= Utils.LoadPicture(displayFomod.image)
 		  
+		  FomodScreen.Show
 		End Sub
 	#tag EndMethod
 
@@ -10,85 +14,78 @@ Protected Module FomodHandler
 		Private Sub ParseFomodFile(modXml As folderitem)
 		  If(modxml.Extension="xml") Then
 		    Var xmlContent As String= Utils.ReadFile(modXml)
-		    Var xmlContentGroups() As String= xmlContent.Split("<group")
-		    Var xmlContentPlugins() As String
+		    If(Not xmlContent.contains("<config xmlns:xsi=")) Then
+		      xmlContent= xmlContent.DefineEncoding(Encodings.UTF16).ConvertEncoding(Encodings.UTF8)
+		    End
+		    // System.DebugLog(xmlContent)
+		    // Var xmlContentGroups() As String
+		    Var xmlContentPlugins() As String= xmlContent.Split("<plugin ")
 		    Var xmlContentPluginLines() As String
+		    Var pluginModName As String
 		    Var pluginName As String
 		    Var pluginDesc As String
-		    Var descTrigger As Boolean= False
 		    Var pluginImg As String
-		    Var pluginFile As String
+		    Var pluginFiles As String
 		    Var pluginPath As String
-		    Var fileTrigger As Boolean= False
-		    // System.DebugLog(xmlContentGroups(1))
+		    Var pluginData As String
 		    
-		    For i As Integer = xmlContentGroups.FirstIndex To xmlContentGroups.LastIndex
-		      // System.DebugLog("<group" + xmlContentGroups(i))
-		      xmlContentPlugins= xmlContentGroups(i).Split("<plugin ")
-		      If(i=xmlContentGroups.FirstIndex) Then
+		    Var tempArr() As String
+		    Var innerTempArr() As String
+		    Var innerTempArr2() As String
+		    
+		    For Each pluginEntry As String In xmlContentPlugins
+		      // System.DebugLog(line+ EndOfLine+ "===")
+		      If(pluginEntry.contains("http://www.w3.org")) Then
+		        tempArr= pluginEntry.Split("<moduleName>")
+		        If(tempArr.Count> 1) Then
+		          innerTempArr= tempArr(1).Split("</moduleName>")
+		          If(innerTempArr.Count> 1) Then
+		            pluginModName= innerTempArr(0)
+		          End
+		        End
 		        Continue
 		      Else
-		        For k As Integer = xmlContentPlugins.FirstIndex To xmlContentPlugins.LastIndex
-		          // System.DebugLog("<plugin " + xmlContentPlugins(k))
-		          xmlContentPluginLines= xmlContentPlugins(k).Split(EndOfLine)
-		          
-		          For Each line As String In xmlContentPluginLines
-		            Var tempArr() As String
-		            Var slimLine As String= line.Trim
-		            // System.DebugLog(line.Trim)
+		        System.DebugLog(pluginModName)
+		        tempArr= pluginEntry.Split(Chr(34))
+		        If(tempArr.Count> 1) Then
+		          pluginName= tempArr(1).Trim
+		          System.DebugLog(pluginName)
+		        End
+		        tempArr= pluginEntry.Split("description>")
+		        If(tempArr.Count> 1) Then
+		          pluginDesc= tempArr(1).Replace("</","").Trim
+		          System.DebugLog(pluginDesc)
+		        End
+		        tempArr= pluginEntry.Split("<image path=")
+		        If(tempArr.Count> 1) Then
+		          innerTempArr= tempArr(1).Split(Chr(34))
+		          pluginImg= innerTempArr(1).Replace("</","").Trim.ReplaceAll("\","/")
+		          System.DebugLog(pluginImg)
+		        End
+		        tempArr= pluginEntry.Split("<files>")
+		        If(tempArr.Count> 1) Then
+		          innerTempArr= tempArr(1).Split("</files>")
+		          pluginFiles= innerTempArr(0).Trim
+		          // System.DebugLog(pluginFiles)
+		          innerTempArr= pluginFiles.Split(Chr(34))
+		          If(innerTempArr(0).contains("destination")) Then
+		            pluginData= innerTempArr(1)
+		            System.DebugLog(pluginData)
 		            
-		            If(line.Contains("name=") And Not line.Contains("<") And Not line.Contains(" type=")) Then
-		              tempArr= line.Split(Chr(34))
-		              pluginName= tempArr(1).Trim
-		              System.DebugLog(pluginName)
-		              
-		            ElseIf(slimLine.Contains("<description>") Or descTrigger) Then
-		              If(slimLine= "<description>" Or descTrigger) Then
-		                If(descTrigger) Then
-		                  pluginDesc= slimLine
-		                  System.DebugLog(pluginDesc)
-		                  descTrigger= False
-		                Else
-		                  descTrigger= True
-		                End
-		              Else
-		                tempArr= slimline.Split(Chr(34))
-		                pluginDesc= tempArr(1).Trim
-		                System.DebugLog(pluginDesc)
-		              End
-		              
-		            ElseIf(slimLine.Contains("<image path=")) Then
-		              tempArr= slimline.Split(Chr(34))
-		              pluginImg= tempArr(1).Trim
-		              System.DebugLog(pluginImg)
-		              
-		            ElseIf(slimline="<files>" Or fileTrigger) Then
-		              If(fileTrigger) Then
-		                tempArr= slimline.Split(Chr(34))
-		                If(tempArr(0).contains("destination=")) Then
-		                  pluginFile= tempArr(1).Trim
-		                  System.DebugLog(pluginFile)
-		                Else
-		                  pluginFile= tempArr(3).Trim
-		                  System.DebugLog(pluginFile)
-		                End
-		                
-		                If(tempArr(3).contains("destination=")) Then
-		                  pluginPath= tempArr(1).Trim
-		                  System.DebugLog(pluginPath)
-		                Else
-		                  pluginPath= tempArr(3).Trim
-		                  System.DebugLog(pluginPath)
-		                End
-		                fileTrigger= False
-		              Else
-		                fileTrigger= True
-		              End
-		              
-		            End
-		          Next
-		        Next
+		            pluginPath= innerTempArr(3).ReplaceAll("\","/")
+		            System.DebugLog(pluginPath)
+		          Else
+		            pluginData= innerTempArr(3)
+		            System.DebugLog(pluginData)
+		            
+		            pluginPath= innerTempArr(1).ReplaceAll("\","/")
+		            System.DebugLog(pluginPath)
+		          End
+		        End
 		      End
+		      System.DebugLog(EndOfLine)
+		      installerPackages.add(New FomodSchema(pluginModName,pluginName,pluginDesc,pluginData, _
+		      pluginPath,pluginImg,True))
 		    Next
 		  End
 		  
@@ -100,13 +97,19 @@ Protected Module FomodHandler
 
 	#tag Method, Flags = &h0
 		Sub RunFomod(fomodXml as String)
-		  ParseFomodFile(new folderitem(fomodXml))
+		  If(Utils.ValidatePath(fomodXml)) Then
+		    ParseFomodFile(New folderitem(fomodXml))
+		    GenerateFomodder(installerPackages(1))
+		  Else
+		    Utils.GeneratePopup(1,"No Fomod XML Detected","An invalid path was provided")
+		  End
+		  
 		End Sub
 	#tag EndMethod
 
 
 	#tag Property, Flags = &h21
-		Private installerPackage(30,30) As FomodSchema
+		Private installerPackages() As FomodSchema
 	#tag EndProperty
 
 	#tag Property, Flags = &h21

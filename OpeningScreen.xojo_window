@@ -388,14 +388,14 @@ End
 		    Self.txt_DataFolder.Text.Trim<>"") Then
 		    
 		    If(Utils.ValidatePath(Self.txt_DataFolder.Text)) Then
-		      If(Self.txt_PluginFile.Text.Contains("~/")) Then
+		      If(Self.txt_DataFolder.Text.Contains("~/")) Then
 		        App.falloutData= New FolderItem(Self.txt_DataFolder.Text.Replace("~/",_
 		        SpecialFolder.UserHome.NativePath))
 		      Else
 		        App.falloutData= New FolderItem(Self.txt_DataFolder.Text)
 		      End
 		      
-		      If(utils.ValidatePath(App.falloutData.child("F4SE").child("Plugins").NativePath)) Then
+		      If(utils.ValidatePath(App.falloutData.NativePath + "/F4SE/Plugins")) Then
 		        App.f4seFolder= App.falloutData.child("F4SE")
 		      Else
 		        Call Utils.CreateFolderStructure(App.falloutData,"F4SE/Plugins/")

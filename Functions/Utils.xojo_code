@@ -82,6 +82,19 @@ Protected Module Utils
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function LoadPicture(filepath As String, newWidth As Integer = 0, newHeight As Integer = 0) As Picture
+		  Var original As Picture= Picture.Open(New FolderItem(filepath))
+		  
+		  Dim newPict As New Picture(newWidth, newHeight, original.Depth )
+		  newPict.Graphics.DrawPicture(_
+		   original, 0, 0, newPict.Width, newPict.Height, 0, 0, original.Width, original.Height )
+		  
+		  return newPict
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function ReadBinData(readFile As FolderItem) As memoryblock
 		  If(readFile <> Nil And readFile.Exists) Then
 		    Var Binstream As BinaryStream= BinaryStream.Open(readFile, False)
@@ -95,15 +108,15 @@ Protected Module Utils
 
 	#tag Method, Flags = &h0
 		Function ReadFile(filePath as folderItem) As String
-		  Var f As FolderItem= filePath
-		  Var t As TextInputStream
+		  Var fileItem As FolderItem= filePath
+		  Var textIn As TextInputStream
 		  Var contents As String
 		  
-		  If(f <> Nil) Then
-		    t = TextInputStream.Open(f)
-		    t.Encoding = Encodings.UTF8 //specify encoding of input stream
-		    contents = t.ReadAll
-		    t.Close
+		  If(fileItem <> Nil) Then
+		    textIn = TextInputStream.Open(fileItem)
+		    textIn.Encoding = Encodings.UTF8 //specify encoding of input stream
+		    contents = textIn.ReadAll
+		    textIn.Close
 		    Return contents
 		  End
 		  
@@ -113,15 +126,15 @@ Protected Module Utils
 
 	#tag Method, Flags = &h0
 		Function ReadFile(filePath as string) As String
-		  Var f As FolderItem= New FolderItem(filePath)
-		  Var t As TextInputStream
+		  Var fileItem As FolderItem= New FolderItem(filePath)
+		  Var textIn As TextInputStream
 		  Var contents As String
 		  
-		  If(f <> Nil) Then
-		    t = TextInputStream.Open(f)
-		    t.Encoding = Encodings.UTF8 //specify encoding of input stream
-		    contents = t.ReadAll
-		    t.Close
+		  If(fileItem <> Nil) Then
+		    textIn = TextInputStream.Open(fileItem)
+		    textIn.Encoding = Encodings.UTF8 //specify encoding of input stream
+		    contents = textIn.ReadAll
+		    textIn.Close
 		    Return contents
 		  End
 		  

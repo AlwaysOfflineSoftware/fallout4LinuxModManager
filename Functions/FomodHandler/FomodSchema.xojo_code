@@ -1,7 +1,8 @@
 #tag Class
 Protected Class FomodSchema
 	#tag Method, Flags = &h0
-		Sub Constructor(inName as String, inDescription as String, inEsp as String, inLocation as FolderItem, inIsOptional as Boolean, inImage as FolderItem = nil)
+		Sub Constructor(inModName as String, inName as String, inDescription as String, inEsp as String, inLocation as String, inImage as String, inIsOptional as Boolean)
+		  Me.modName= inModName
 		  Me.name= inName
 		  Me.description= inDescription
 		  Me.esp= inEsp
@@ -21,7 +22,7 @@ Protected Class FomodSchema
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
-		image As FolderItem
+		image As String
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
@@ -29,7 +30,11 @@ Protected Class FomodSchema
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
-		location As FolderItem
+		location As String
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
+		modName As String
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
@@ -101,6 +106,30 @@ Protected Class FomodSchema
 			InitialValue=""
 			Type="Boolean"
 			EditorType=""
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="image"
+			Visible=false
+			Group="Behavior"
+			InitialValue=""
+			Type="String"
+			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="location"
+			Visible=false
+			Group="Behavior"
+			InitialValue=""
+			Type="String"
+			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="modName"
+			Visible=false
+			Group="Behavior"
+			InitialValue=""
+			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 	#tag EndViewBehavior
 End Class
